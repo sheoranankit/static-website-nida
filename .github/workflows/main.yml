@@ -1,11 +1,12 @@
 name: Deploy to S3
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       aws-region:
+        description: 'AWS Region to deploy to'
         required: true
-        type: string
+        default: 'us-east-1'
 
 jobs:
   deploy:
@@ -20,7 +21,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ inputs.aws-region }}
+          aws-region: ${{ github.event.inputs.aws-region }}
 
       - name: Sync files to S3
         run: |
