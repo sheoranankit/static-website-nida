@@ -1,9 +1,11 @@
 name: Deploy to S3
 
 on:
-  push:
-    paths:
-      - 'index.html'
+  workflow_call:
+    inputs:
+      aws-region:
+        required: true
+        type: string
 
 jobs:
   deploy:
@@ -18,7 +20,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ inputs.aws-region }}
 
       - name: Sync files to S3
         run: |
